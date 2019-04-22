@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:02 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-21 Sunday 10:03:03 pm                                *
+ * Last Modified: 2019-04-22 Monday 2:15:42 pm                                 *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -19,6 +19,7 @@ int main(int argc,char *argv[]){
 	unsigned long i;
 	Text *text;
 	HuffMan *huffman;
+	DecodeType *code;
 	//FILE *fp;
 	scanf("%ld",&i);
 	text=CreateText(i);
@@ -27,6 +28,8 @@ int main(int argc,char *argv[]){
 	Text_Scan(text);
 	huffman=CreateHuffManTree(text->char_ascii,text->char_kind_num);
 	CreateHF_File(huffman);
+	code=TreeNode_Decode(huffman);
+	CodePrint(code);
 	//printf("%d",sizeof(long));
 	//test("\nmain finished...");
 	/*printf("%d %d %d %d",sizeof(short),sizeof(long),sizeof(int),sizeof(unsigned char));

@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:15 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-21 Sunday 10:03:15 pm                                *
+ * Last Modified: 2019-04-22 Monday 4:58:04 pm                                 *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -35,10 +35,6 @@ void Text_Scan(Text *text){
 	for(i=0;i<text->lenth;i++){
 		text->char_ascii[(int)(text->data[i])]++;
 	}
-	for(i=0;i<=__BYTE_MAX__;i++){
-		printf("%ld ",text->char_ascii[i]);
-		if(i%15==0 && i!=0) printf("\n");
-	}
 	/**
 	 * 扫描字ASCII码表
 	 * 统计出现的字符种类数
@@ -48,4 +44,12 @@ void Text_Scan(Text *text){
 			text->char_kind_num++;
 		}
 	}
+}
+
+void PrintText(Text *text){
+	short i;
+	for(i=0;i<=__BYTE_MAX__;i++){
+		printf("%ld ",text->char_ascii[i]);
+		if(i%15==0 && i!=0) printf("\n");
+		}
 }

@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:19 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-21 Sunday 10:03:19 pm                                *
+ * Last Modified: 2019-04-22 Monday 3:13:59 pm                                 *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -62,7 +62,7 @@ HuffMan *CreateHuffManTree(unsigned long ascii_dic[],short char_kind_num){//创�
 	return huffman;
 }
 
-unsigned short Find_Min_Weight(HuffMan *huffman){//查找最小权值结点
+unsigned short Find_Min_Weight(HuffMan *huffman){//查找最小权值结点位置
 	unsigned short i;//计次变量
 	unsigned long temp;//临时变量，存放最小值
 	unsigned short locate;//位置变量，最放最小值的位置
@@ -89,11 +89,58 @@ unsigned short Find_Min_Weight(HuffMan *huffman){//查找最小权值结点
 
 HuffMan_State CreateHF_File(HuffMan *huffman){
 	unsigned short i;
-	FILE *fp=fopen("./hfmTree","wt+");
+	FILE *fp=fopen("./hfmTree","wt+");//创建文件
+	if(fp==NULL){
+		return Create_File_FAIL;//创建失败
+	}
 	for ( i = 0; i < huffman->lenth; i++)
 	{
 		fprintf(fp,"id:%d ch:%c weight:%ld ",i,huffman->node[i].ch,huffman->node[i].weight);
 		fprintf(fp,"parent:%d lchild:%d rchild:%d\n",huffman->node[i].parent,huffman->node[i].lchild,huffman->node[i].rchild);
 	}
-	return Create_OK;
+	return Create_File_OK;//创建成功
+}
+
+void HuffMan_Decode(HuffMan *huffman){//根据哈夫曼树编码
+	unsigned short i;//对应下标志，范围在0~510，所以用short类型
+	for ( i = 0; i < huffman->char_kind_num; i++){
+		
+	}
+	
+}
+
+DecodeType *TreeNode_Decode(HuffMan *huffman){
+	DecodeType *code;
+	unsigned char *tempcode;
+	byte i;
+	byte current;//当前节点位置
+	byte p;
+	byte start;
+	tempcode=(unsigned char *)malloc(sizeof(unsigned char)*huffman->char_kind_num);
+	code=(DecodeType *)malloc(sizeof(DecodeType)*huffman->char_kind_num);
+	for(i=0;i<huffman->char_kind_num;i++){
+		code[i].ch=huffman->node[i].ch;
+		for(current=i,p=huffman->char_kind_num-1;\
+			huffman->node[current].parent!=-1;\
+			current=huffman->node[current].parent){
+			if(huffman->node[huffman->node[current].parent].lchild==current){
+				tempcode[p]='0';
+				p--;
+			}else{
+				tempcode[p]='1';
+				p--;	
+			}
+		}
+		printf("%s\t",&tempcode[p+1]);
+		strcpy(code[i].decode,&tempcode[p+1]);
+	}
+	return code;
+}
+
+void CodePrint(DecodeType *code){
+	short i;
+	for ( i = 0; i < 10; i++)
+	{
+		printf("char:%c,code:%s\n",code[i].ch,code[i].decode);
+	}
 }

@@ -1,13 +1,60 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * File: ToBeTran.txt                                                          *
- * Project: huffman                                                            *
- * Created Date: 2019-04-23 Tuesday 6:23:50 pm                                 *
- * Author: Nie Aowei at <nieaowei@qq.com>                                      *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-23 Tuesday 6:23:50 pm                                *
- * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright (c) 2019 Nie Aowei                                                *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * UPDATE HISTORY:                                                             *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+char_id:32 char: ,code:001
+char_id:34 char:",code:0000101010110
+char_id:40 char:(,code:0000101010111
+char_id:41 char:),code:0000101011000
+char_id:44 char:,,code:0000101011001
+char_id:45 char:-,code:00000
+char_id:46 char:.,code:0000101011010
+char_id:48 char:0,code:000111
+char_id:49 char:1,code:1001
+char_id:50 char:2,code:101011
+char_id:51 char:3,code:101010
+char_id:52 char:4,code:101001
+char_id:53 char:5,code:000100
+char_id:54 char:6,code:000011
+char_id:55 char:7,code:000101
+char_id:56 char:8,code:101000
+char_id:57 char:9,code:000110
+char_id:58 char::,code:010
+char_id:59 char:;,code:0000101011011
+char_id:65 char:A,code:0000101011100
+char_id:66 char:B,code:0000101011101
+char_id:67 char:C,code:0000101011110
+char_id:69 char:E,code:0000101011111
+char_id:70 char:F,code:000010010000
+char_id:72 char:H,code:000010010001
+char_id:73 char:I,code:000010010010
+char_id:77 char:M,code:000010010011
+char_id:78 char:N,code:000010010100
+char_id:79 char:O,code:000010010101
+char_id:80 char:P,code:000010010110
+char_id:82 char:R,code:000010010111
+char_id:83 char:S,code:000010011000
+char_id:84 char:T,code:000010011001
+char_id:87 char:W,code:000010011010
+char_id:97 char:a,code:111011
+char_id:98 char:b,code:000010011011
+char_id:99 char:c,code:0110
+char_id:100 char:d,code:0111
+char_id:101 char:e,code:11010
+char_id:102 char:f,code:000010011100
+char_id:103 char:g,code:111100
+char_id:104 char:h,code:1011
+char_id:105 char:i,code:1100
+char_id:106 char:j,code:000010011101
+char_id:107 char:k,code:000010011110
+char_id:108 char:l,code:1000
+char_id:109 char:m,code:000010011111
+char_id:110 char:n,code:111101
+char_id:111 char:o,code:000010100000
+char_id:112 char:p,code:111110
+char_id:113 char:q,code:000010100001
+char_id:114 char:r,code:11011
+char_id:115 char:s,code:000010100010
+char_id:116 char:t,code:11100
+char_id:117 char:u,code:000010100011
+char_id:118 char:v,code:000010100100
+char_id:119 char:w,code:111111
+char_id:120 char:x,code:000010100101
+char_id:121 char:y,code:000010100110
+char_id:122 char:z,code:000010100111

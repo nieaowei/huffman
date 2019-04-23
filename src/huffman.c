@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:19 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-23 Tuesday 6:23:13 pm                                *
+ * Last Modified: 2019-04-23 Tuesday 7:45:59 pm                                *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -144,7 +144,7 @@ void CodePrint(HuffMan *huffman){
 	short i;
 	for ( i = 0; i<huffman->char_kind_num ; i++)
 	{
-		printf("char:%c,code:%s\n",huffman->code[i].ch,huffman->code[i].decode);
+		printf("char_id:%d char:%c,code:%s\n",huffman->code[i].ch,huffman->code[i].ch,huffman->code[i].decode);
 	}
 }
 //创建哈夫曼编码文件
@@ -196,7 +196,7 @@ void Scanf_Value_Decode(const char *HFFile,const char *HfCode){
 	HuffMan_Decode(huffman);//哈夫曼编码
 	//CodePrint(huffman);
 	CreateHFCode_File(HfCode,huffman);//哈夫曼编码文件
-	i=0;
+	//i=0;
 	//while(i<char_kind_num){
 		//fscanf(fp,"%c",&ch);
 	//	fprintf(out,"%s",huffman->code[Find_Code(huffman,ascii_char[i])].decode);
@@ -221,7 +221,7 @@ void Scanf_File_Decode(const char *instr,const char *outstr,const char *HFFile,c
 		text->char_ascii[(int)ch]++;
 		text->lenth++;
 	}
-	fclose(fp);//后面用不到，及时关闭，节省内存
+	//fclose(fp);//后面用不到，及时关闭，节省内存
 	//统计字符种类
 	Text_Scan(text,0);
 	//创建哈夫曼树

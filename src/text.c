@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:15 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-22 Monday 4:58:04 pm                                 *
+ * Last Modified: 2019-04-23 Tuesday 6:23:50 pm                                *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -26,14 +26,16 @@ Text *CreateText(unsigned long lenth){
 	return text;
 }
 
-void Text_Scan(Text *text){
+void Text_Scan(Text *text,byte mode){
 	Text_Max i;
 	/**
 	 * 扫描字符串，
 	 * 得到ASCII码字符频率表
 	 */
-	for(i=0;i<text->lenth;i++){
-		text->char_ascii[(int)(text->data[i])]++;
+	if(mode==1){
+		for(i=0;i<text->lenth;i++){
+			text->char_ascii[(int)(text->data[i])]++;
+		}
 	}
 	/**
 	 * 扫描字ASCII码表

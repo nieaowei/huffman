@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:19 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-22 Monday 3:13:59 pm                                 *
+ * Last Modified: 2019-04-23 Tuesday 6:23:13 pm                                *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -14,7 +14,9 @@
 #include "huffman.h"
 
 //创建哈夫曼树
-HuffMan *CreateHuffManTree(unsigned long ascii_dic[],short char_kind_num){//创建哈夫曼树
+HuffMan *CreateHuffManTree(unsigned long *ascii_dic,//
+						   short array_lenth,//
+						   short char_kind_num){//创建哈夫曼树
 	unsigned short i,j;//计次变量
 	unsigned short min1,min2;//最小值
 	HuffMan *huffman;//声明哈夫曼树指针
@@ -23,7 +25,7 @@ HuffMan *CreateHuffManTree(unsigned long ascii_dic[],short char_kind_num){//创�
 	huffman->char_kind_num=char_kind_num;//设置哈夫曼树字符的种数
 	huffman->node=(TreeNode *)malloc(sizeof(TreeNode)*huffman->lenth);//开辟总结数个树结点
 	//初始化各结点各变量，并将ASCII数组中的下标转化 以及 权值赋值
-	for ( i = 0, j=0; i <=__BYTE_MAX__; i++)
+	for ( i = 0, j=0; i <array_lenth; i++)
 	{
 		if(ascii_dic[i]!=0){
 			huffman->node[j].flag=0;
@@ -66,6 +68,7 @@ unsigned short Find_Min_Weight(HuffMan *huffman){//查找最小权值结点位�
 	unsigned short i;//计次变量
 	unsigned long temp;//临时变量，存放最小值
 	unsigned short locate;//位置变量，最放最小值的位置
+
 	//扫描结点的权值，将第一个未被取出的权值赋值给temp，以及位置赋值给locate
 	for(i=0;i<huffman->lenth;i++){
 		if(huffman->node[i].flag==0 && huffman->node[i].weight!=0){
@@ -87,9 +90,9 @@ unsigned short Find_Min_Weight(HuffMan *huffman){//查找最小权值结点位�
 
 }
 
-HuffMan_State CreateHF_File(HuffMan *huffman){
+HuffMan_State CreateHF_File(const char *str,HuffMan *huffman){
 	unsigned short i;
-	FILE *fp=fopen("./hfmTree","wt+");//创建文件
+	FILE *fp=fopen(str,"wt+");//创建文件
 	if(fp==NULL){
 		return Create_File_FAIL;//创建失败
 	}
@@ -98,49 +101,156 @@ HuffMan_State CreateHF_File(HuffMan *huffman){
 		fprintf(fp,"id:%d ch:%c weight:%ld ",i,huffman->node[i].ch,huffman->node[i].weight);
 		fprintf(fp,"parent:%d lchild:%d rchild:%d\n",huffman->node[i].parent,huffman->node[i].lchild,huffman->node[i].rchild);
 	}
+	fclose(fp);
 	return Create_File_OK;//创建成功
 }
 
-void HuffMan_Decode(HuffMan *huffman){//根据哈夫曼树编码
+HuffMan_State HuffMan_Decode(HuffMan *huffman){
+	LinkStack sq=NULL;//初始化栈
 	unsigned short i;//对应下标志，范围在0~510，所以用short类型
-	for ( i = 0; i < huffman->char_kind_num; i++){
-		
-	}
-	
-}
-
-DecodeType *TreeNode_Decode(HuffMan *huffman){
-	DecodeType *code;
-	unsigned char *tempcode;
-	byte i;
-	byte current;//当前节点位置
+	short current;//当前节点位置
 	byte p;
-	byte start;
-	tempcode=(unsigned char *)malloc(sizeof(unsigned char)*huffman->char_kind_num);
-	code=(DecodeType *)malloc(sizeof(DecodeType)*huffman->char_kind_num);
+	byte e;
+	huffman->code=(DecodeType *)malloc(sizeof(DecodeType)*huffman->char_kind_num);
 	for(i=0;i<huffman->char_kind_num;i++){
-		code[i].ch=huffman->node[i].ch;
-		for(current=i,p=huffman->char_kind_num-1;\
+
+		for(current=i,p=0;\
 			huffman->node[current].parent!=-1;\
 			current=huffman->node[current].parent){
-			if(huffman->node[huffman->node[current].parent].lchild==current){
-				tempcode[p]='0';
-				p--;
+			if(huffman->node[huffman->node[current].parent].lchild==current){//满足条件就压栈
+				PushStack(&sq,'0');
+				p++;
 			}else{
-				tempcode[p]='1';
-				p--;	
+				PushStack(&sq,'1');
+				p++;
 			}
 		}
-		printf("%s\t",&tempcode[p+1]);
-		strcpy(code[i].decode,&tempcode[p+1]);
+		//给编码字符赋值
+		huffman->code[i].ch=huffman->node[i].ch;
+		//开辟相应个节点的空间大小
+		huffman->code[i].decode=(byte *)malloc(sizeof(byte)*p);
+		//所有元素出栈
+		p=0;
+		while(sq!=NULL){//当栈不空
+			PopStack(&sq,&e);
+			sprintf(&huffman->code[i].decode[p++],"%c",e);
+		}
+		//printf("%s\n",huffman->code[i].decode);
 	}
-	return code;
+	return Encode_FAIL;
+}
+//打印字符编码
+void CodePrint(HuffMan *huffman){
+	short i;
+	for ( i = 0; i<huffman->char_kind_num ; i++)
+	{
+		printf("char:%c,code:%s\n",huffman->code[i].ch,huffman->code[i].decode);
+	}
+}
+//创建哈夫曼编码文件
+HuffMan_State CreateHFCode_File(const char *str,HuffMan *huffman){
+	FILE *fp=fopen(str,"wt+");//打开或创建可读可写文件
+	short i;
+	if(fp==NULL) return Create_File_FAIL;
+
+	for(i=0;i<huffman->char_kind_num;i++){
+		fprintf(fp,"%c:%s\n",huffman->code[i].ch,huffman->code[i].decode);
+	}
+	fclose(fp);
+	return Create_File_OK;
 }
 
-void CodePrint(DecodeType *code){
+void FreeHuffman(HuffMan *huffman){
+	free(huffman->node);
+	free(huffman->code);
+	free(huffman);
+}
+
+//实现题目所给要求，即将所需函数用逻辑拼接起来
+
+void Scanf_Value_Decode(const char *HFFile,const char *HfCode){
+	unsigned short char_kind_num;//字符种类数
+    unsigned short i;//计数
+    unsigned long ascii[256];//ASCII对应表
+    unsigned char *ascii_char;//ASCII字符对应表
+	//FILE *out;//输出文件
+	//char ch;//临时字符
+	HuffMan *huffman;//哈夫曼树
+	//out=fopen(outstr,"wt+");//打开out文件
+	printf("请输入字符种类数：");
+    scanf("%hd",&char_kind_num);//输入
+    getchar();//吸收回车
+    ascii_char=(unsigned char *)malloc(sizeof(unsigned char)*char_kind_num);//开辟字符类数字符数组
+	printf("请输入字符（以空格为间隔）:");
+    for(i=0;i<char_kind_num;i++){
+        scanf("%c",&ascii_char[i]);
+        getchar();//吸收回车
+    }
+	for(i=0;i<256;i++) ascii[i]=0;
+	printf("请输入各字符权值（与上方对应）:");
+    for(i=0;i<char_kind_num;i++){
+        scanf("%ld",&ascii[(int)ascii_char[i]]);
+    }
+	huffman=CreateHuffManTree(ascii,256,char_kind_num);//创建哈夫曼树
+	CreateHF_File(HFFile,huffman);//创建哈夫曼树文件
+	HuffMan_Decode(huffman);//哈夫曼编码
+	//CodePrint(huffman);
+	CreateHFCode_File(HfCode,huffman);//哈夫曼编码文件
+	i=0;
+	//while(i<char_kind_num){
+		//fscanf(fp,"%c",&ch);
+	//	fprintf(out,"%s",huffman->code[Find_Code(huffman,ascii_char[i])].decode);
+	//	i++;
+	//}
+	//fclose(out);
+	FreeHuffman(huffman);
+}
+
+void Scanf_File_Decode(const char *instr,const char *outstr,const char *HFFile,const char *HfCode){
+	FILE *fp;//输入文件
+	FILE *out;//输出文件
+	HuffMan *huffman;//
+	Text *text;//声明文本
+	unsigned char ch;
+	text=CreateText(0);//创建文本
+	fp=fopen(instr,"r");//只读方式打开输入文件
+	out=fopen(outstr,"wt+");//可写创建或打开输出文件
+	//开始统计文本长度已经字符频率
+	while((ch=fgetc(fp))!=255){//文本未结束
+		//fscanf(fp,"%c",&ch);
+		text->char_ascii[(int)ch]++;
+		text->lenth++;
+	}
+	fclose(fp);//后面用不到，及时关闭，节省内存
+	//统计字符种类
+	Text_Scan(text,0);
+	//创建哈夫曼树
+	huffman=CreateHuffManTree(text->char_ascii,256,text->char_kind_num);
+	//哈夫曼树写入文件hffile
+	CreateHF_File(HFFile,huffman);
+	//根据生成的哈夫曼树进行编码
+	HuffMan_Decode(huffman);
+	//打印编码文件
+	CodePrint(huffman);
+	//将编码写入文件hfcode
+	CreateHFCode_File(HfCode,huffman);
+	//fp指向文件头
+	rewind(fp);
+	//对输入文件进行编码，写入输出文件
+	while((ch=fgetc(fp))!=255){
+		//fscanf(fp,"%c",&ch);
+		fprintf(out,"%s",huffman->code[Find_Code(huffman,ch)].decode);
+	}
+	//关闭out文件流
+	fclose(out);
+	//释放huffman所有申请内存
+	FreeHuffman(huffman);
+}
+
+short Find_Code(HuffMan *huffman,char ch){
 	short i;
-	for ( i = 0; i < 10; i++)
-	{
-		printf("char:%c,code:%s\n",code[i].ch,code[i].decode);
+	for(i=0;i<huffman->char_kind_num;i++){
+		if(ch==huffman->code[i].ch)
+			return i;
 	}
 }

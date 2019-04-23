@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:26 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-22 Monday 5:00:18 pm                                 *
+ * Last Modified: 2019-04-23 Tuesday 6:23:11 pm                                *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -29,5 +29,5 @@ typedef struct{
 
 Text *CreateText(Text_Max lenth);//创建lenth长度的字符串文本
 
-void Text_Scan(Text *text);//扫描文本字符串，得到字符种数和ASCII吗字符频率
+void Text_Scan(Text *text,byte mode);//扫描文本字符串，得到字符种数和ASCII吗字符频率
 

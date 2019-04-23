@@ -4,7 +4,7 @@
  * Created Date: 2019-04-22 Monday 3:54:53 pm                                  *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-22 Monday 4:54:23 pm                                 *
+ * Last Modified: 2019-04-22 Monday 5:24:32 pm                                 *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -21,6 +21,7 @@ LinkStack CreateStack(){
 StackState PushStack(LinkStack *stack,StackType elem){
     StackNode *p;
     p=(StackNode *)malloc(sizeof(StackNode));
+	if(p==NULL) return 0;
     p->data=elem;
     p->next=(*stack);
     (*stack)=p;
@@ -33,8 +34,8 @@ StackState PopStack(LinkStack *stack,StackType *elem){
         return ERROR;
     }
     *elem=(*stack)->data;
+	temp=(*stack);
     (*stack)=(*stack)->next;
-    temp=(*stack);
     free(temp);
     return OK;
 }

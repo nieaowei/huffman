@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:19 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-23 Tuesday 7:45:59 pm                                *
+ * Last Modified: 2019-04-27 Saturday 6:23:36 pm                               *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -128,6 +128,7 @@ HuffMan_State HuffMan_Decode(HuffMan *huffman){
 		//给编码字符赋值
 		huffman->code[i].ch=huffman->node[i].ch;
 		//开辟相应个节点的空间大小
+		huffman->code[i].lenth=p;
 		huffman->code[i].decode=(byte *)malloc(sizeof(byte)*p);
 		//所有元素出栈
 		p=0;
@@ -195,6 +196,8 @@ void Scanf_Value_Decode(const char *HFFile,const char *HfCode){
 	CreateHF_File(HFFile,huffman);//创建哈夫曼树文件
 	HuffMan_Decode(huffman);//哈夫曼编码
 	//CodePrint(huffman);
+	CodePrint(huffman);
+	PrintAverageWe(huffman);
 	CreateHFCode_File(HfCode,huffman);//哈夫曼编码文件
 	//i=0;
 	//while(i<char_kind_num){
@@ -234,6 +237,7 @@ void Scanf_File_Decode(const char *instr,const char *outstr,const char *HFFile,c
 	CodePrint(huffman);
 	//将编码写入文件hfcode
 	CreateHFCode_File(HfCode,huffman);
+	PrintAverageWe(huffman);
 	//fp指向文件头
 	rewind(fp);
 	//对输入文件进行编码，写入输出文件
@@ -253,4 +257,21 @@ short Find_Code(HuffMan *huffman,char ch){
 		if(ch==huffman->code[i].ch)
 			return i;
 	}
+}
+
+void PrintAverageWe(HuffMan *huffman){
+	long sum=0;
+	int i;
+	long m=0;
+	for ( i = 0; i < huffman->char_kind_num; i++)
+	{
+		/* code */
+		m+=huffman->node[i].weight;
+	}
+	for ( i = 0; i < huffman->char_kind_num; i++)
+	{
+		//printf("(%d/%d)*%d",huffman->node[i].weight,m,huffman->code[i].lenth);
+		sum+=huffman->node[i].weight*huffman->code[i].lenth;
+	}
+	printf("平均码长为：%lf",sum/1.0/m);
 }

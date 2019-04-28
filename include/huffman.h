@@ -4,7 +4,7 @@
  * Created Date: 2019-04-21 Sunday 10:03:28 pm                                 *
  * Author: Nie Aowei at <nieaowei@qq.com>                                      *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Last Modified: 2019-04-23 Tuesday 6:23:10 pm                                *
+ * Last Modified: 2019-04-27 Saturday 5:51:02 pm                               *
  * Modified By: Nie Aowei at <nieaowei@qq.com>                                 *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright (c) 2019 Nie Aowei                                                *
@@ -40,6 +40,7 @@ typedef struct{
 typedef struct{
 	unsigned char ch;
 	byte *decode;
+	byte lenth;
 }DecodeType;
 
 //数定义
@@ -88,5 +89,7 @@ short Find_Code(HuffMan *huffman,char ch);//查找字符ch的在code中的位置
 void Scanf_File_Decode(const char *instr,const char *outstr,const char *HFFile,const char *HfCode);//根据路径instr文件编码，输出为outstr文件，创建名称为HFFile的哈夫曼树文件，创建名称为hfcode的编码文件
 
 void Scanf_Value_Decode(const char *HFFile,const char *HfCode);//根据输入的字符和权值编码，参数同上
+
+void PrintAverageWe(HuffMan *huffman);
 
 #endif
